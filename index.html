@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kiro Kebab | Sapori Eleganti</title>
+  <style>
+    :root{
+      --bg:#f6efe7;
+      --bg2:#f2e4d6;
+      --panel:#fff8f1;
+      --card:#ffffffcc;
+      --text:#2b1d14;
+      --muted:#6f5a4d;
+      --gold:#c89b5c;
+      --terracotta:#f58c03;
+      --brown:#4a2f23;
+      --line:rgba(74,47,35,.10);
+      --shadow:0 16px 40px rgba(74,47,35,.12);
+      --radius:24px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(200,155,92,.18), transparent 25%),
+        radial-gradient(circle at top right, rgba(182,90,60,.12), transparent 28%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      overflow-x:hidden;
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(14px);
+      background:rgba(246,239,231,.82);
+      border-bottom:1px solid var(--line);
+    }
+
+    .wrap{
+      width:min(1180px, calc(100% - 32px));
+      margin:0 auto;
+    }
+
+    .topbar-inner{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      padding:16px 0;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+      letter-spacing:.7px;
+    }
+
+    .logo{
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg, var(--terracotta), var(--gold));
+      color:#fff;
+      font-weight:900;
+      box-shadow:0 10px 20px rgba(182,90,60,.24);
+    }
+
+    nav{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    nav a{
+      color:inherit;
+      text-decoration:none;
+      transition:.2s;
+    }
+
+    nav a:hover{color:var(--terracotta)}
+
+    .hero{
+      padding:64px 0 30px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 280px 1fr 280px;
+      gap:20px;
+      align-items:stretch;
+    }
+
+    .photo-vertical{
+      min-height:640px;
+      border-radius:32px;
+      overflow:hidden;
+      position:relative;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(74,47,35,.10);
+      background:#ddd;
+    }
+
+    .photo-vertical img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter:saturate(1.05) contrast(1.02);
+      transform:scale(1.01);
+    }
+
+    .photo-vertical::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(43,29,20,.04), rgba(43,29,20,.24));
+    }
+
+    .hero-card{
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(74,47,35,.10);
+      border-radius:32px;
+      background:
+        linear-gradient(135deg, rgba(255,248,241,.96), rgba(255,255,255,.86)),
+        radial-gradient(circle at top right, rgba(200,155,92,.16), transparent 24%);
+      box-shadow:var(--shadow);
+      padding:38px;
+      min-height:640px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(182,90,60,.10);
+      color:var(--terracotta);
+      border:1px solid rgba(182,90,60,.16);
+      font-size:.92rem;
+    }
+
+    h1{
+      margin:18px 0 10px;
+      font-size:clamp(2.8rem, 6vw, 5.6rem);
+      line-height:.95;
+      color:var(--brown);
+    }
+
+    .subtitle{
+      max-width:620px;
+      color:var(--muted);
+      font-size:1.06rem;
+      line-height:1.7;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:24px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:13px 18px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:700;
+      border:1px solid transparent;
+      transition:.2s ease;
+      cursor:pointer;
+    }
+
+    .btn.primary{
+      color:#fff;
+      background:linear-gradient(135deg, var(--terracotta), #d57a52);
+      box-shadow:0 12px 24px rgba(182,90,60,.20);
+    }
+
+    .btn.secondary{
+      color:var(--brown);
+      background:rgba(255,255,255,.55);
+      border-color:rgba(74,47,35,.12);
+    }
+
+    .btn:hover{transform:translateY(-2px)}
+
+    .aside{
+      display:grid;
+      gap:16px;
+    }
+
+    .mini{
+      border:1px solid rgba(74,47,35,.10);
+      border-radius:24px;
+      background:rgba(255,255,255,.62);
+      box-shadow:var(--shadow);
+      padding:18px;
+      overflow:hidden;
+    }
+
+    .mini img{
+      width:100%;
+      height:150px;
+      object-fit:cover;
+      border-radius:18px;
+      margin-bottom:12px;
+    }
+
+    .mini h3{
+      margin:0 0 10px;
+      color:var(--brown);
+    }
+
+    .mini p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .highlight{
+      margin-top:18px;
+      padding:16px;
+      border-radius:20px;
+      background:linear-gradient(135deg, rgba(200,155,92,.12), rgba(182,90,60,.08));
+      border:1px dashed rgba(74,47,35,.14);
+      color:var(--brown);
+    }
+
+    section{padding:24px 0 8px}
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin:0 0 18px;
+      font-size:1.5rem;
+      color:var(--brown);
+    }
+
+    .section-title span{
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      background:var(--terracotta);
+      box-shadow:0 0 18px rgba(182,90,60,.28);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+      gap:18px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid rgba(74,47,35,.10);
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(6px);
+      overflow:hidden;
+    }
+
+    .card img{
+      width:100%;
+      height:170px;
+      object-fit:cover;
+      border-radius:18px;
+      margin-bottom:14px;
+    }
+
+    .card h3{
+      margin-top:0;
+      margin-bottom:14px;
+      color:var(--brown);
+    }
+
+    .item{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:11px 0;
+      border-bottom:1px solid var(--line);
+    }
+
+    .item:last-child{border-bottom:0}
+    .name{font-weight:700}
+    .price{font-weight:800;color:var(--terracotta);white-space:nowrap}
+
+    .beverages{
+      background:linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.56));
+    }
+
+    .promo{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:16px;
+    }
+
+    .stat{
+      border-radius:22px;
+      padding:18px;
+      background:linear-gradient(135deg, rgba(255,255,255,.72), rgba(255,248,241,.86));
+      border:1px solid rgba(74,47,35,.10);
+      box-shadow:var(--shadow);
+    }
+
+    .stat strong{
+      display:block;
+      font-size:1.35rem;
+      color:var(--gold);
+      margin-bottom:6px;
+    }
+
+    .footer{
+      padding:34px 0 48px;
+      color:var(--muted);
+      text-align:center;
+      border-top:1px solid var(--line);
+      margin-top:34px;
+    }
+
+    .tag{
+      display:inline-block;
+      margin-top:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(182,90,60,.10);
+      border:1px solid rgba(182,90,60,.16);
+      color:var(--brown);
+      font-size:.92rem;
+    }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(14px);
+      transition:.6s ease;
+    }
+
+    .reveal.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+      .photo-vertical{min-height:320px}
+    }
+
+    @media (max-width: 860px){
+      .promo{grid-template-columns:1fr}
+      .topbar-inner{flex-direction:column; align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand">
+        <div class="logo">KK</div>
+        <div>
+          <div>Kiro Kebab</div>
+          <small style="color:var(--muted)">Eleganza e sapori turchi</small>
+        </div>
+      </div>
+      <nav>
+        <a href="#menu">Menu</a>
+        <a href="#beverages">Bevande</a>
+        
+      </nav>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="hero reveal">
+      <div class="hero-grid">
+        <div class="photo-vertical">
+          <img src="C:\Users\XWolr\Desktop\kebab\photo\IMG_20260530_225521_PORTRAIT.jpg" alt="Kebab verticale" />
+        </div>
+
+        <div class="hero-card">
+          <div class="eyebrow">Prova l'esperienza del vero Kebab</div>
+          <h1>Kiro Kebab</h1>
+          <p class="subtitle">
+            Kiro Kebab è un piccolo locale accogliente nel cuore della città, specializzato in kebab preparati al momento con ingredienti freschi e di qualità.
+             Il menu offre diverse varianti: classico con carne saporita tagliata al momento, versione vegetariana con falafel, accompagnate da salse e contorni croccanti.
+             L’atmosfera è informale e conviviale, ideale per uno spuntino veloce o una cena informale; servizio rapido, porzioni abbondanti e prezzi accessibili completano l’esperienza.
+          </p>
+          <div class="actions">
+            <a class="btn primary" href="#menu">Vedi il menu</a>
+            <a class="btn secondary" href="#beverages">Scopri le bevande</a>
+          </div>
+          <div class="highlight">
+            I nostri operatori oltre ad essere molto accoglienti, professionali e affettuosi, sono anche in grado di garantirvi un'esperienza gustativa uncia nel suo genere.
+          </div>
+        </div>
+
+        <div class="aside">
+          <div class="mini">
+            <img src="C:\Users\XWolr\Desktop\kebab\photo\IMG_20260530_225758_MFNR~2(1).jpg" alt="Interno ristorante turco" />
+            <h3>Il nostro locale</h3>
+            <p>Sofisticato e accogliente.</p>
+          </div>
+          <div class="mini">
+            <img src="C:\Users\XWolr\Desktop\kebab\photo\IMG_20260530_224904_MFNR~2(1).jpg"alt="Piatti kebab" />
+            <h3>Esperienza per le tue papille gustative</h3>
+            <p>Un mix di sapori e ingredienti che ti farà girare la testa</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="promo">
+        <div class="stat">
+          <strong>Calore</strong>
+         I nostri dipendenti sono in grado di assistervi con affetto e accoglienza.
+        </div>
+        <div class="stat">
+          <strong>Eleganza</strong>
+          Il locale ha un design elegante e accogliente in grado di avvolgervi e trasportarvi nel mondo del vero Kebab.
+        </div>
+        <div class="stat">
+          <strong>Efficienza</strong>
+          Kebab pronti in menu di 5 minuti con ingredienti freschi e a vostra scelta.
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="reveal">
+      <h2 class="section-title"><span></span>Menu Kiro Kebab</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="C:\Users\XWolr\Desktop\Lavoro\Foto\cdd6a005-d8ba-4881-80af-4595e0cc3f35.png" alt="Piatto turco" />
+          <h3>Kebab e piadine</h3>
+          <div class="item"><div class="name">Kebab piadina</div><div class="price">6,00 €</div></div>
+          <div class="item"><div class="name">Kebab panino</div><div class="price">5,00 €</div></div>
+          <div class="item"><div class="name">Kebab tacos</div><div class="price">7,00 €</div></div>
+          <div class="item"><div class="name">Piatto kebab</div><div class="price">7,50 €</div></div>
+        </div>
+
+        <div class="card">
+          <img src="C:\Users\XWolr\Desktop\Lavoro\Foto\8f7ce8b5-e6d0-44a9-8d75-6460d31a151ea - Copia (2).png" alt="Menu con piatti turchi" />
+          <h3>Falafel e specialità</h3>
+          <div class="item"><div class="name">Panino falafel</div><div class="price">5,00 €</div></div>
+          <div class="item"><div class="name">Piadina falafel</div><div class="price">6,00 €</div></div>
+          <div class="item"><div class="name">Piadina cotoletta</div><div class="price">6,00 €</div></div>
+        </div>
+
+        <div class="card">
+          <img src="C:\Users\XWolr\Desktop\Lavoro\Foto\Logo.png"alt="Menu composto" />
+          <h3>Menu combinati</h3>
+          <div class="item"><div class="name">Menu kebab</div><div class="price">8,00 €</div></div>
+          <div class="item"><div class="name">Menu piadina</div><div class="price">9,00 €</div></div>
+          <div class="item"><div class="name">Menu hamburger</div><div class="price">8,00 €</div></div>
+          <div class="item"><div class="name">Menu cotoletta</div><div class="price">8,00 €</div></div>
+          <div class="item"><div class="name">Menu hot dog</div><div class="price">6,50 €</div></div>
+          <div class="item"><div class="name">Menu piadina con cotoletta</div><div class="price">9,00 €</div></div>
+          <div class="item"><div class="name">Menu tacos</div><div class="price">9,00 €</div></div>
+        </div>
+
+        <div class="card">
+          <img src="C:\Users\XWolr\Desktop\Lavoro\Foto\hamburger-baked-in-oven-1024x1024.jpg" alt="Snack e fritti" />
+          <h3>Panini e fritti</h3>
+          <div class="item"><div class="name">Hamburger</div><div class="price">5,00 €</div></div>
+          <div class="item"><div class="name">Cotoletta</div><div class="price">5,00 €</div></div>
+          <div class="item"><div class="name">Hot dog</div><div class="price">3,50 €</div></div>
+          <div class="item"><div class="name">Patatine piccole</div><div class="price">2,50 €</div></div>
+          <div class="item"><div class="name">Patatine medie</div><div class="price">3,50 €</div></div>
+          <div class="item"><div class="name">Patatine grandi</div><div class="price">5,00 €</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="beverages" class="reveal">
+      <h2 class="section-title"><span></span>Bevande</h2>
+      <div class="card beverages">
+        <h3>Sezione bevande</h3>
+        <div class="item"><div class="name">Coca-Cola</div><div class="price">Disponibile</div></div>
+        <div class="item"><div class="name">Fanta</div><div class="price">Disponibile</div></div>
+        <div class="item"><div class="name">Sprite</div><div class="price">Disponibile</div></div>
+        <div class="item"><div class="name">Bevande variabili</div><div class="price">Chiedi al locale</div></div>
+        <p style="color:var(--muted); margin-bottom:0;">Le bevande possono variare in base alla disponibilità del giorno.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const els = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
